@@ -1,7 +1,9 @@
-### 1. Create an array-like data structure where .shift, .unshift, .push, .pop would all be of O(n) time complexity
+### 1. Create an array-like data structure `BetterArray` where .shift, .unshift, .push, .pop etc would all be of O(n) time complexity
 
 ```
-const arr = new PerlArray();
+// usage
+
+const arr = new BetterArray();
 
 arr.push(1);
 arr.push(2);
@@ -17,6 +19,11 @@ arr.shift(); // -2
 
 arr.getAt(0); // -1
 arr.getAt(1); // 0
+
+arr.update(0, 100);
+arr.update(10, 100); // invalid, since nothing exists at index 10
+
+arr.getLength(); // 4
 
 arr.get(); // [-1, 0, 1, 2]
 ```
