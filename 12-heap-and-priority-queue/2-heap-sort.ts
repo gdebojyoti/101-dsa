@@ -1,30 +1,8 @@
-function heapSort (nums: number[]): number[] {
-  const heap: number[] = [];
-  
+function heapSort (heap: number[]): number[] {
   // 1. create max heap; first element is highest
-  for (let i = 0; i < nums.length; i++) {
-    heap.push(nums[i]);
-    
-    let currIndex = heap.length - 1;
-    
-    // keep looping till element goes as high as it can
-    while (true) {
-      const parentIndex = Math.floor((currIndex - 1) / 2);
-      
-      // swap if current > parent; then reiterate
-      if (heap[currIndex] > heap[parentIndex]) {
-        // swap
-        [heap[currIndex], heap[parentIndex]] = [heap[parentIndex], heap[currIndex]];
-
-        // update current index
-        currIndex = parentIndex;
-
-        // reiterate
-        continue;
-      }
-      
-      break;
-    }
+  // NOTE: this process takes advantage of the fact that subtrees of a max heap are also max heaps
+  for (let i = heap.length - 1; i >= 0; i--) {
+    heapifyDown(i, heap.length);
   }
 
   for (let i = 0; i < heap.length; i++) {
@@ -32,9 +10,11 @@ function heapSort (nums: number[]): number[] {
     [heap[0], heap[heap.length - 1 - i]] = [heap[heap.length - 1 - i], heap[0]];
 
     // 3. heapify down
-    let currIndex = 0;
-    const limitIndex = heap.length - 1 - i;
+    heapifyDown(0, heap.length - 1 - i);
+  }
 
+  // NOTE: this works only on an existing max heap; i.e., parent nodes >= children nodes
+  function heapifyDown (currIndex: number, limitIndex: number) {
     // keep looping till element goes as low as it can
     while (true) {
       // calculate left & right child indices
@@ -45,7 +25,7 @@ function heapSort (nums: number[]): number[] {
       lcIndex < limitIndex && triad.push(heap[lcIndex]);
       rcIndex < limitIndex && triad.push(heap[rcIndex]);
 
-      const max = Math.max(...triad);
+      const max = Math.max(...triad); // identify max of parent, left child, right child
 
       // break if current is already highest
       if (heap[currIndex] === max) {
