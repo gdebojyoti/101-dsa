@@ -1,5 +1,6 @@
+// T = O(n * log n)
 function heapSort (nums: number[]): number[] {
-  // 1. create max heap; first element is highest
+  // 1. create max heap; first element is highest; T = O(n)
   // NOTE: this process takes advantage of the fact that subtrees of a max heap are also max heaps
   for (let i = nums.length - 1; i >= 0; i--) {
     heapifyDown(i, nums.length);
@@ -7,11 +8,12 @@ function heapSort (nums: number[]): number[] {
 
   console.log("max heap:", nums);
 
+  // 2. sort the max heap; T = O(n * log n)
   for (let i = 0; i < nums.length; i++) {
-    // 2. swap first & last elements
+    // a. swap first & last elements
     [nums[0], nums[nums.length - 1 - i]] = [nums[nums.length - 1 - i], nums[0]];
 
-    // 3. heapify down
+    // b. heapify down
     heapifyDown(0, nums.length - 1 - i);
   }
 
